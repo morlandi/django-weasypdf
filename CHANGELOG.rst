@@ -3,6 +3,10 @@
 History
 =======
 
+v0.1.2
+------
+* PdfView renamed as WeasypdfView
+
 v0.1.1
 ------
 * Rename "pdf" module as "weasypdf"
