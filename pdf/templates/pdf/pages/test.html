@@ -1,0 +1,20 @@
+{% extends "pdf/base.html" %}
+
+
+{% block content %}
+
+    <h1>Test PDF</h1>
+
+    {% if plot_image %}
+        <img class="plot" src="data:image/png;base64,{{plot_image}}">
+    {% else %}
+        <h3 style="color: red;">Rendering a plot requires <b>matplotlib</b></h3>
+    {% endif %}
+
+    {% with lines=lines|default:100 %}
+        {% for i in "x"|rjust:lines %}
+            <div>line {{forloop.counter}} ...</div>
+        {% endfor %}
+    {% endwith %}
+
+{% endblock content %}
