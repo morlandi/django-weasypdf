@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-from __future__ import print_function
 import os
 import datetime
 import json
@@ -7,9 +6,9 @@ import pprint
 import argparse
 from django.core.management.base import BaseCommand
 from django.conf import settings
-from pdf.utils import build_pdf_document
-from pdf.views import PdfTestView
-from pdf.plot import build_plot_from_data
+from weasypdf.utils import build_pdf_document
+from weasypdf.views import PdfTestView
+from weasypdf.plot import build_plot_from_data
 
         # fonts = sorted(set([f.name for f in matplotlib.font_manager.fontManager.ttflist]))
         # print(fonts)

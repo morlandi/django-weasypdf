@@ -1,3 +1,3 @@
 include README.rst
-recursive-include pdf/static *
-recursive-include pdf/templates *
+recursive-include weasypdf/static *
+recursive-include weasypdf/templates *

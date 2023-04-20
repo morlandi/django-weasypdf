@@ -1,6 +1,5 @@
 from datetime import datetime
 
-from constance import config
 from django.views.generic import TemplateView
 from django.template.defaultfilters import slugify
 from django.template.loader import get_template
@@ -17,10 +16,10 @@ from .utils import Counter
 
 class PdfView(TemplateView):
 
-    body_template_name = 'pdf/base.html'
+    body_template_name = 'weasypdf/base.html'
     styles_template_name = ''
-    header_template_name = 'pdf/header.html'
-    footer_template_name = 'pdf/footer.html'
+    header_template_name = 'weasypdf/header.html'
+    footer_template_name = 'weasypdf/footer.html'
     title = "Title"
     for_download = False
 
@@ -160,12 +159,12 @@ class PdfTestView(PdfView):
 
     Esempio:
 
-    http://127.0.0.1:8000/pdf/test/print/?format=html&debug=1
+    http://127.0.0.1:8000/weasypdf/test/print/?format=html&debug=1
 
     """
 
-    body_template_name = 'pdf/pages/test.html'
-    styles_template_name = 'pdf/pages/test.css'
+    body_template_name = 'weasypdf/pages/test.html'
+    styles_template_name = 'weasypdf/pages/test.css'
     # header_template_name = None
     # footer_template_name = None
     title = "Test"

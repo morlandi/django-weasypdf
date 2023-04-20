@@ -70,7 +70,7 @@ A test view has been provided to render a sample report for demonstration purpos
 In your main urls, include pdf/urls.py, where the required end-point have been
 mapped to the PdfTestView; then, visit:
 
-    http://127.0.0.1:8000/pdf/test/print/
+    http://127.0.0.1:8000/weasypdf/test/print/
 
 You can copy the following to your own app to have an initial working view
 to start working with:

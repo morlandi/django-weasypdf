@@ -13,7 +13,7 @@ def get_version(*file_paths):
     raise RuntimeError('Unable to find version string.')
 
 
-version = get_version("pdf", "__init__.py")
+version = get_version("weasypdf", "__init__.py")
 readme = open('README.rst').read()
 history = open('CHANGELOG.rst').read().replace('.. :changelog:', '')
 
@@ -22,7 +22,7 @@ setup(name='django-weasypdf',
       version=version,
       description='A Django class-based view helper to generate PDF with WeasyPrint',
       long_description=readme + '\n\n' + history,
-      url='http://github.com/morlandi/django-pdf',
+      url='http://github.com/morlandi/django-weasypdf',
       author='Mario Orlandi',
       author_email='morlandi@brainstorm.it',
       license='MIT',
