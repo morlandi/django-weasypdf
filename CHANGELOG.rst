@@ -3,6 +3,11 @@
 History
 =======
 
+v0.1.1
+------
+* Rename "pdf" module as "weasypdf"
+* Sample project added
+
 v0.1.0
 ------
 * Publish on Pypi as "django-weasypdf"
