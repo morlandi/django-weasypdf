@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import redirect
 
 urlpatterns = [
+    path('', lambda x: redirect('/weasypdf/test/print/')),
     path('admin/', admin.site.urls),
     path('weasypdf/', include('weasypdf.urls', namespace='weasypdf')),
     #path('reports/', include('reports.urls', namespace='reports')),

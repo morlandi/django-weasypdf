@@ -1,6 +1,6 @@
 
-django-pdf
-==========
+django-weasypdf
+===============
 
 A Django class-based view helper to generate PDF with WeasyPrint.
 
@@ -27,11 +27,11 @@ or:
 
 .. code:: bash
 
-    pip install git+https://github.com/morlandi/django-pdf
+    pip install git+https://github.com/morlandi/django-weasypdf
 
 
-You will probably build you own app in the project to provide derived Views
-and custom templates; for example:
+You will probably build your own app, for example `reports`, to provide custom derived Views
+and templates:
 
 .. code:: bash
 
@@ -44,35 +44,47 @@ In your settings, add:
     INSTALLED_APPS = [
         ...
         'reports',
-        'pdf',
+        'weasypdf',
     ]
 
-Note that `reports` is listed before `pdf` to make sure you can possibly
+Note that `reports` is listed before `weasypdf` to make sure you can possibly
 override any template.
 
 In your urls, add:
 
 .. code:: python
 
+    from django.urls import path, include
+
     urlpatterns = [
         ...
         path('reports/', include('reports.urls', namespace='reports')),
         ...
 
-You might want to copy the default templates from 'pdf/templates/pdf' to 'reports/templates/reports'
+Optionally, you might want to copy the default templates from 'weasypdf/templates/weasypdf' to 'reports/templates/reports'
 for any required customization; see `Customizing the templates`_ below
 
 A sample report
 ---------------
 
-A test view has been provided to render a sample report for demonstration purposes.
+A test view has already been included in the `weasypdf` app
+to render a sample document for demonstration purposes.
 
-In your main urls, include pdf/urls.py, where the required end-point have been
-mapped to the PdfTestView; then, visit:
+To use it, add the following to your urls:
+
+.. code:: python
+
+    path('weasypdf/', include('weasypdf.urls', namespace='weasypdf')),
+
+then, visit:
 
     http://127.0.0.1:8000/weasypdf/test/print/
 
-You can copy the following to your own app to have an initial working view
+
+Usage
+-----
+
+You can copy the following to your `reports` app to have a sample view
 to start working with:
 
 file `reports/urls.py`:
@@ -82,7 +94,7 @@ file `reports/urls.py`:
     from django.urls import path
     from . import views
 
-    app_name = 'pdf'
+    app_name = 'weasypdf'
 
     urlpatterns = [
         path('test/print/', views.ReportTestView.as_view(), {'for_download': False, 'lines': 200, }, name="test-print"),
@@ -94,15 +106,15 @@ file `reports/views.py`:
 
 .. code:: python
 
-    from pdf.views import PdfView
+    from weasypdf.views import WeasypdfView
 
 
-    class ReportView(PdfView):
+    class ReportView(WeasypdfView):
 
         #my_custom_data = None
-        header_template_name = 'pdf/header.html'
-        footer_template_name = 'pdf/footer.html'
-        styles_template_name = 'pdf/styles.css'
+        header_template_name = 'weasypdf/header.html'
+        footer_template_name = 'weasypdf/footer.html'
+        styles_template_name = 'weasypdf/styles.css'
 
         def get_context_data(self, **kwargs):
             context = super(ReportView, self).get_context_data(**kwargs)
@@ -115,8 +127,8 @@ file `reports/views.py`:
 
 
     class ReportTestView(ReportView):
-        body_template_name = 'pdf/pages/test.html'
-        styles_template_name = 'pdf/pages/test.css'
+        body_template_name = 'weasypdf/pages/test.html'
+        styles_template_name = 'weasypdf/pages/test.css'
         # header_template_name = None
         # footer_template_name = None
         title = "Report Test"
@@ -142,14 +154,14 @@ file `reports/views.py`:
             return context
 
 
-or **replace `pdf/header.html` with `reports/header.html`**, etc ... when using
+or **replace `weasypdf/header.html` with `reports/header.html`**, etc ... when using
 custom templates.
 
 file `reports/pages/test.html`:
 
 .. code:: html
 
-    {% extends "pdf/base.html" %}
+    {% extends "weasypdf/base.html" %}
 
     {% block content %}
 
@@ -186,7 +198,7 @@ You can inspect the HTML used for PDF rendering by appending `?format=html` to t
 Building a PDF document from a background process
 -------------------------------------------------
 
-A `PdfView.render_as_pdf_to_stream(self, base_url, extra_context, output)` method is supplied for this purpose:
+A `WeasypdfView.render_as_pdf_to_stream(self, base_url, extra_context, output)` method is supplied for this purpose:
 
 .. code:: python
 
@@ -206,7 +218,7 @@ A `PdfView.render_as_pdf_to_stream(self, base_url, extra_context, output)` metho
 A sample management command to build a PDF document outside the HTML request/response
 cycle is available here:
 
-`pdf/management/commands/build_test_pdf.py <./pdf/management/commands/build_test_pdf.py>`_
+`weasypdf/management/commands/build_test_pdf.py <./weasypdf/management/commands/build_test_pdf.py>`_
 
 
 Providing "extra_context" parameters
@@ -236,7 +248,7 @@ from a background task:
     )
 
     # Create empty file as result
-    filename = view.build_filename(extension="pdf")
+    filename = view.build_filename(extension="weasypdf")
     task.result.save(filename, ContentFile(''))
 
     # Open and write result
@@ -251,13 +263,13 @@ Customizing the templates
 
 These sample files::
 
-    pdf
+    weasypdf
     ├── static
-    │   └── pdf
+    │   └── weasypdf
     │       └── images
     │           └── header_left.png
     └── templates
-        └── pdf
+        └── weasypdf
             ├── base.html
             ├── base_nomargins.html
             ├── styles.css
@@ -273,7 +285,7 @@ and used for any required customization:
 
 .. code:: python
 
-    class ReportView(PdfView):
+    class ReportView(WeasypdfView):
 
         header_template_name = 'reports/header.html'
         footer_template_name = 'reports/footer.html'
@@ -429,7 +441,7 @@ An helper function has been included in this app for that purpose; to use it, **
 must be installed.
 
 At the moment, it is more a POC then a complete solution; you can either use it
-from the package, or copy the source file `pdf/plot.py` in your project and use
+from the package, or copy the source file `weasypdf/plot.py` in your project and use
 `build_plot_from_data()` as a starting point:
 
 .. code:: python

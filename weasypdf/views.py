@@ -12,9 +12,9 @@ from .utils import build_pdf_document
 from .utils import Counter
 
 ################################################################################
-# Base PdfView
+# Base WeasypdfView
 
-class PdfView(TemplateView):
+class WeasypdfView(TemplateView):
 
     body_template_name = 'weasypdf/base.html'
     styles_template_name = ''
@@ -46,7 +46,7 @@ class PdfView(TemplateView):
             self.format = self.request.GET.get('format')
         except:
             self.format = 'pdf'
-        context = super(PdfView, self).get_context_data(**kwargs)
+        context = super(WeasypdfView, self).get_context_data(**kwargs)
         self.for_download = context.pop('for_download', False)
         #self.print_date = timezone.now()
 
@@ -149,7 +149,7 @@ class PdfView(TemplateView):
 ################################################################################
 # Pages
 
-class PdfTestView(PdfView):
+class PdfTestView(WeasypdfView):
 
     """
     Per il fine-tuning del css conviene invocare direttamente la view dal browser
