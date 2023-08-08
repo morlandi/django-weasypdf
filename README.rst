@@ -138,7 +138,7 @@ file `reports/views.py`:
 
             # Add a plot
             try:
-                from .plot import build_plot_from_data
+                from weasypdf.plot import build_plot_from_data
                 plot_image = build_plot_from_data(data=None, as_base64=True)
                 context.update({
                     'plot_image': plot_image,
